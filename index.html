@@ -1,13 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pukul.in</title>
-  <link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
-  
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pukul.in</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <body>
+      <div class="drum-kit">
+        <!-- Kick 1 -->
+        <img
+          id="left-kick"
+          class="drum kick-1"
+          src="/assets/images/drum-images/kick.png"
+          alt="Kick Drum 1"
+        />
+        <!-- Kick 2 -->
+        <img
+          id="right-kick"
+          class="drum kick-2"
+          src="/assets/images/drum-images/kick.png"
+          alt="Kick Drum 2"
+        />
+        <audio id="kick-sound" src="/assets/audio/kick.wav"></audio>
+
+        <img
+          id="snare-drum"
+          class="drum snare"
+          src="assets/images/drum-images/snare.png"
+          alt="Snare Drum"
+        />
+        <audio id="snare-sound" src="/assets/audio/snare.wav"></audio>
+      </div>
+    </body>
+    <script src="script.js"></script>
+  </body>
 </html>
