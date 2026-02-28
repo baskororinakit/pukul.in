@@ -65,3 +65,15 @@ body {
   left: 50%;
   width: 130px;
 }
+
+.hihat-close {
+  top: 36%;
+  left: 31%;
+  width: 110px;
+}
+
+.hihat-open {
+  top: 48%;
+  left: 28%;
+  width: 110px;
+}

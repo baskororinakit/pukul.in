@@ -1,61 +1,122 @@
-// Element drum
-const leftKickDrum = document.getElementById("left-kick");
-const rightKickDrum = document.getElementById("right-kick");
-const snareDrum = document.getElementById("snare-drum");
+function playDrum(
+  drumElement,
+  soundElement,
+  activeDrum,
+  normalDrum,
+  allowRestart = true,
+) {
+  if (allowRestart) {
+    soundElement.currentTime = 0;
+  } else {
+    if (!soundElement.paused) return;
+  }
 
-// AUDIO KIT DRUM
-const kickSound = document.getElementById("kick-sound");
-const snareSound = document.getElementById("snare-sound");
+  soundElement.play();
 
-// SNARE
-function playSnare() {
-  snareSound.currentTime = 0;
-  snareSound.play();
-
-  snareDrum.src = "assets/images/drum-active/snare-active.png";
-
-  setTimeout(() => {
-    snareDrum.src = "assets/images/drum-images/snare.png";
-  }, 100);
-}
-
-// KICK
-function playLeftKick() {
-  kickSound.currentTime = 0;
-  kickSound.play();
-
-  leftKickDrum.src = "assets/images/drum-active/kick-active.png";
+  drumElement.src = activeDrum;
 
   setTimeout(() => {
-    leftKickDrum.src = "assets/images/drum-images/kick.png";
-  }, 100);
+    drumElement.src = normalDrum;
+  }, 400);
 }
 
-function playRightKick() {
-  kickSound.currentTime = 0;
-  kickSound.play();
+// element element drums / kit drums
+const drums = {
+  leftKick: {
+    element: document.getElementById("left-kick"),
+    sound: document.getElementById("kick-sound"),
+    active: "assets/images/drum-active/kick-active.png",
+    normal: "assets/images/drum-images/kick.png",
+  },
 
-  rightKickDrum.src = "assets/images/drum-active/kick-active.png";
+  rightKick: {
+    element: document.getElementById("right-kick"),
+    sound: document.getElementById("kick-sound"),
+    active: "assets/images/drum-active/kick-active.png",
+    normal: "assets/images/drum-images/kick.png",
+  },
 
-  setTimeout(() => {
-    rightKickDrum.src = "assets/images/drum-images/kick.png";
-  }, 100);
-}
+  snare: {
+    element: document.getElementById("snare-drum"),
+    sound: document.getElementById("snare-sound"),
+    active: "assets/images/drum-active/snare-active.png",
+    normal: "assets/images/drum-images/snare.png",
+  },
 
-leftKickDrum.addEventListener("click", playLeftKick);
-rightKickDrum.addEventListener("click", playRightKick);
-snareDrum.addEventListener("click", playSnare);
+  hihatClose: {
+    element: document.getElementById("hihat-close"),
+    sound: document.getElementById("hihatCloseSound"),
+    active: "assets/images/drum-active/hihat-close-active.png",
+    normal: "assets/images/drum-images/hihat-close-open.png",
+  },
 
+  hihatOpen: {
+    element: document.getElementById("hihat-open"),
+    sound: document.getElementById("hihatOpenSound"),
+    active: "assets/images/drum-active/hihat-open-active.png",
+    normal: "assets/images/drum-images/hihat-close-open.png",
+  },
+};
+const hihatOpenSound = drums.hihatOpen.sound;
+const hihatCloseSound = drums.hihatClose.sound;
+
+// Keyboard Mapping
 document.addEventListener("keydown", function (e) {
   if (e.key === "c" || e.key === "v") {
-    playSnare();
+    const drum = drums.snare;
+    playDrum(drum.element, drum.sound, drum.active, drum.normal);
   }
 
   if (e.key === "b") {
-    playLeftKick();
+    const drum = drums.leftKick;
+    playDrum(drum.element, drum.sound, drum.active, drum.normal);
   }
 
   if (e.key === "n") {
-    playRightKick();
+    const drum = drums.rightKick;
+    playDrum(drum.element, drum.sound, drum.active, drum.normal);
+  }
+
+  if (e.key === "z") {
+    // CHOKE open
+    drums.hihatOpen.sound.pause();
+    drums.hihatOpen.sound.currentTime = 0;
+
+    const drum = drums.hihatClose;
+    playDrum(drum.element, drum.sound, drum.active, drum.normal);
+  }
+
+  if (e.key === "x") {
+    const drum = drums.hihatOpen;
+    playDrum(drum.element, drum.sound, drum.active, drum.normal);
+  }
+});
+
+Object.values(drums).forEach((drum) => {
+  drum.element.addEventListener("click", () => {
+    playDrum(drum.element, drum.sound, drum.active, drum.normal);
+  });
+});
+
+drums.hihatClose.element.addEventListener("click", () => {
+  hihatOpenSound.pause();
+  hihatOpenSound.currentTime = 0;
+
+  playDrum(
+    drums.hihatClose.element,
+    drums.hihatClose.sound,
+    drums.hihatClose.active,
+    drums.hihatClose.normal,
+  );
+});
+
+drums.hihatOpen.element.addEventListener("click", () => {
+  if (hihatOpenSound.paused) {
+    playDrum(
+      drums.hihatOpen.element,
+      drums.hihatOpen.sound,
+      drums.hihatOpen.active,
+      drums.hihatOpen.normal,
+    );
   }
 });
